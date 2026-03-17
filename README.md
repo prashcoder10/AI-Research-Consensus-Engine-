@@ -32,16 +32,40 @@ ai_consensus_engine/
 │
 ├── src/
 │   ├── ingestion/
+│   │   ├── web_scraper.py
+│   │   ├── document_loader.py
+│   │
 │   ├── preprocessing/
+│   │   ├── cleaner.py
+│   │   ├── chunker.py
+│   │
 │   ├── embeddings/
+│   │   ├── embedder.py
+│   │
 │   ├── retrieval/
+│   │   ├── vector_store.py
+│   │   ├── retriever.py
+│   │
 │   ├── clustering/
+│   │   ├── clusterer.py
+│   │
 │   ├── llm/
+│   │   ├── claim_extractor.py
+│   │   ├── summarizer.py
+│   │
 │   ├── utils/
+│   │   ├── logger.py
+│   │   ├── config_loader.py
 │
 ├── api/
+│   ├── routes.py
+│
 ├── config/
+│   ├── settings.yaml
+│
 ├── tests/
+│   ├── test_pipeline.py
+│
 ├── main.py
 ├── requirements.txt
 
