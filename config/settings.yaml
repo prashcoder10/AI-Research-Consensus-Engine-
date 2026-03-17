@@ -1,0 +1,133 @@
+# ==========================================
+# GLOBAL APP SETTINGS
+# ==========================================
+app:
+  name: "AI Research Consensus Engine"
+  version: "1.0.0"
+  env: "development"        # development | staging | production
+  debug: true
+
+# ==========================================
+# INGESTION SETTINGS
+# ==========================================
+ingestion:
+  timeout_seconds: 10
+  max_retries: 3
+  backoff_base: 2
+  user_agent: "Mozilla/5.0 (AI-Consensus-Engine)"
+  max_concurrent_requests: 10   # increase to 20–50 in production
+  max_response_size_kb: 1024    # prevent huge downloads
+
+# ==========================================
+# PREPROCESSING SETTINGS
+# ==========================================
+preprocessing:
+  chunk_size: 300
+  chunk_overlap: 50
+  min_text_length: 50
+  normalize_whitespace: true
+  remove_urls: true
+  remove_emails: true
+  remove_special_characters: true
+
+# ==========================================
+# EMBEDDING SETTINGS
+# ==========================================
+embedding:
+  provider: "sentence_transformers"   # sentence_transformers | openai
+  model_name: "all-MiniLM-L6-v2"
+  batch_size: 32
+  normalize_embeddings: true
+
+  # Caching (IMPORTANT for performance)
+  cache_enabled: true
+  cache_dir: "./cache/embeddings"
+
+# ==========================================
+# VECTOR STORE SETTINGS
+# ==========================================
+vector_store:
+  type: "faiss"
+  index_type: "flat"   # flat | ivf (use ivf for >100k vectors)
+  persist_path: "./data/faiss_index"
+  use_gpu: false
+
+# ==========================================
+# RETRIEVAL SETTINGS
+# ==========================================
+retrieval:
+  top_k: 5
+  score_threshold: 0.5
+  enable_reranking: false   # future upgrade
+
+# ==========================================
+# CLUSTERING SETTINGS
+# ==========================================
+clustering:
+  algorithm: "similarity"   # similarity | kmeans
+  num_clusters: 5
+  similarity_threshold: 0.75
+  min_cluster_size: 2
+
+# ==========================================
+# CONSENSUS ENGINE SETTINGS
+# ==========================================
+consensus:
+  min_claims_for_consensus: 2
+  contradiction_detection: false   # enable later with LLM/NLI
+
+# ==========================================
+# LLM SETTINGS
+# ==========================================
+llm:
+  provider: "mock"   # mock | openai | anthropic
+  model: "gpt-4o-mini"
+  temperature: 0.2
+  max_tokens: 1000
+  timeout_seconds: 30
+
+  claim_extraction_prompt: |
+    Extract clear, factual, atomic claims from the text.
+    Avoid opinions or vague statements.
+    Return ONLY a JSON array of strings.
+
+  summarization_prompt: |
+    You are an expert research analyst.
+    Analyze grouped claims and produce:
+    - Key consensus points
+    - Conflicting viewpoints
+    - A concise final summary
+
+# ==========================================
+# CACHE SETTINGS
+# ==========================================
+cache:
+  enabled: true
+  type: "local"     # local | redis (future)
+  ttl_seconds: 86400
+
+# ==========================================
+# LOGGING SETTINGS
+# ==========================================
+logging:
+  level: "INFO"     # DEBUG | INFO | WARNING | ERROR
+  log_to_file: true
+  log_file_path: "./logs/app.log"
+
+# ==========================================
+# API SETTINGS
+# ==========================================
+api:
+  host: "0.0.0.0"
+  port: 8000
+  rate_limit_per_minute: 60
+  request_timeout_seconds: 60
+
+# ==========================================
+# SAFETY & LIMITS (VERY IMPORTANT)
+# ==========================================
+limits:
+  max_input_sources: 100
+  max_total_tokens: 50000
+  max_chunks: 1000
+  max_claims: 500
