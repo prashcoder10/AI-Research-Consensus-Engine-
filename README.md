@@ -27,7 +27,7 @@ Input → Ingestion → Cleaning → Chunking → Embeddings → Vector Store
 ---
 
 ## 📁 Project Structure
-
+```
 ai_consensus_engine/
 │
 ├── src/
@@ -68,7 +68,7 @@ ai_consensus_engine/
 │
 ├── main.py
 ├── requirements.txt
-
+```
 ---
 
 ## ⚙️ Installation
